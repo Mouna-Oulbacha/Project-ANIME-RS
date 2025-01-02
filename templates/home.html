@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AnimeWorld</title>
+  <link rel="stylesheet" href="../static/css/home.css">
+</head>
+
+<body>
+  <header class="navbar">
+    <div class="logo">
+      <h1>AnimeWorld</h1>
+    </div>
+    <div class="search-bar">
+      <form action="/search" method="GET" class="search-form">
+        <div class="input-container">
+          <svg xmlns="http://www.w3.org/2000/svg" class="search-icon" fill="none" viewBox="0 0 24 24"
+            stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M11 4a7 7 0 016.32 10.906l4.387 4.387a1 1 0 01-1.415 1.415l-4.387-4.387A7 7 0 1111 4z" />
+          </svg>
+          <input type="text" name="query" placeholder="Search Anime..." class="search-input" />
+        </div>
+      </form>
+    </div>
+    <div class="user-actions">
+      <a href="{{ url_for('auth.logout') }}" class="btn-logout">Logout</a>
+      <svg xmlns="http://www.w3.org/2000/svg" class="user-icon" fill="currentColor" viewBox="0 0 24 24" stroke="none">
+        <path
+          d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-3.86 0-7 3.14-7 7 0 .55.45 1 1 1h12c.55 0 1-.45 1-1 0-3.86-3.14-7-7-7z" />
+      </svg>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="section-header">
+      <div class="card">
+        <img src="../static/images/card6.jpg" alt="Blue Sword">
+      </div>
+
+      <div class="card">
+        <h3>Recalling the Journey of Dol</h3>
+        <img src="../static/images/card8.jpg" alt="Dol">
+      </div>
+    </div>
+
+    <div class="filters">
+      <button>Tv</button>
+      <button>OVA</button>
+      <button>Movie</button>
+      <button>Special</button>
+      <button>ONA</button>
+      <button>Music</button>
+    </div>
+
+    <h3>Trending in Animation</h3>
+    <div class="trending" id="trendingAnime">
+      <p>Loading...</p>
+    </div>
+
+    <h3>For you</h3>
+    <div class="trending" id="userRecommendations">
+      <p>Loading...</p>
+    </div>
+  </div>
+
+  <div id="animeModal" class="modal">
+    <div class="modal-content">
+      <button class="close" onclick="closeModal()">&times;</button>
+      <div class="modal-header">
+        <img id="animeImage" src="" alt="Anime Cover">
+      </div>
+      <div class="modal-body">
+        <h2 id="animeTitle">Anime Title</h2>
+        <p><strong>Genre:</strong> <span id="animeGenre">Action</span></p>
+        <p><strong>Type:</strong> <span id="animeType">TV</span></p>
+        <p><strong>Members:</strong> <span id="animeMembers">500,000</span></p>
+        <p><strong>Rating:</strong> <span id="animeRating">8.5</span></p>
+        <input type="hidden" id="animeId">
+    <input type="hidden" id="userRating"> <!-- Ajoutez cette ligne -->
+    <div class="rating">
+        <label>Your Rating:</label>
+        <div id="starRating" class="stars"></div>
+    </div>
+      </div>
+      <div class="modal-footer">
+        <button class="submit-rating" onclick="submitRating()">Submit</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      async function loadRecommendations() {
+        try {
+          const response = await fetch('/recommendations/recommend');
+          const data = await response.json();
+
+          const trendingContainer = document.getElementById('trendingAnime');
+          if (!data.recommendations || data.recommendations.length === 0) {
+            trendingContainer.innerHTML = '<p>No recommendations available</p>';
+            return;
+          }
+
+          trendingContainer.innerHTML = '';
+
+          data.recommendations.forEach(anime => {
+            const rating = anime.rating === "N/A" ? "N/A" : parseFloat(anime.rating).toFixed(1);
+            const card = document.createElement('div');
+            card.className = 'movie-card';
+            card.onclick = () => openModal(
+              anime.name || 'Unknown',
+              Array.isArray(anime.genre) ? anime.genre.join(', ') : 'Unknown',
+              anime.type || 'Unknown',
+              'N/A',
+              anime.members || 0,
+              rating,
+              '../static/images/default-anime.jpg',
+              anime.anime_id,
+              
+            );
+
+            card.innerHTML = `
+              <img src="../static/images/default-anime.jpg" alt="${anime.name || 'Unknown'}">
+              <h4>${anime.name || 'Unknown'}</h4>
+              <p>${rating} | ${anime.type || 'Unknown'}</p>
+            `;
+
+            trendingContainer.appendChild(card);
+          });
+        } catch (error) {
+          console.error('Error loading recommendations:', error);
+          document.getElementById('trendingAnime').innerHTML = `
+            <div class="error-message">
+              <p>Error: ${error.message}</p>
+            </div>
+          `;
+        }
+      }
+
+      async function loadUserRecommendations() {
+        try {
+          const response = await fetch('/recommendations/getRecommandations', {
+            method: 'GET',
+            headers: {
+              'Authorization': `Bearer ${localStorage.getItem('token')}`,
+              'Content-Type': 'application/json'
+            },
+
+          });
+          const data = await response.json();
+          console.log(data);
+
+          const token = localStorage.getItem('token');
+          console.log('Current token:', token);
+
+
+          const forYouContainer = document.getElementById('userRecommendations');
+          if (!data.recommendations || data.recommendations.length === 0) {
+            forYouContainer.innerHTML = '<p>No recommendations available</p>';
+            return;
+          }
+
+          forYouContainer.innerHTML = '';
+
+          data.recommendations.forEach(anime => {
+            const rating = anime.rating === "N/A" ? "N/A" : parseFloat(anime.rating).toFixed(1);
+            const card = document.createElement('div');
+            card.className = 'movie-card';
+            card.onclick = () => openModal(
+              anime.name || 'Unknown',
+              // Array.isArray(anime.genre) ? anime.genre.join(', ') : 'Unknown',
+              anime.genre,
+              anime.type || 'Unknown',
+              // anime.episodes || 'N/A',
+              // anime.members || 0,
+             rating,
+              // anime.image || '../static/images/default-anime.jpg',
+              anime.anime_id
+            );
+
+            card.innerHTML = `
+              <img src="${anime.image || '../static/images/default-anime.jpg'}" alt="${anime.name || 'Unknown'}">
+              <h4>${anime.name || 'Unknown'}</h4>
+              <p>${rating} | ${anime.type || 'Unknown'}</p>
+            `;
+
+            forYouContainer.appendChild(card);
+          });
+        } catch (error) {
+          console.error('Error loading user recommendations:', error);
+          const forYouContainer = document.querySelector('#userRecommendations');
+          forYouContainer.innerHTML = `
+            <div class="error-message">
+              <p>Error loading recommendations: ${error.message}</p>
+            </div>
+          `;
+        }
+      }
+
+      loadRecommendations();
+      loadUserRecommendations();
+    });
+
+    function openModal(title, genre, type, episodes, members, rating, image, animeId) {
+      document.getElementById("animeId").value = animeId; // Mise à jour ici
+      document.getElementById("animeTitle").textContent = title;
+      document.getElementById("animeGenre").textContent = genre;
+      document.getElementById("animeType").textContent = type;
+      document.getElementById("animeMembers").textContent = members;
+      document.getElementById("animeRating").textContent = rating;
+      document.getElementById("animeImage").src = image;
+      document.getElementById("animeId").value = animeId;
+      document.getElementById("animeModal").style.display = "flex";
+      renderStars();
+    }
+
+    function closeModal() {
+      document.getElementById("animeModal").style.display = "none";
+    }
+
+    function renderStars() {
+      const starContainer = document.getElementById("starRating");
+      starContainer.innerHTML = "";
+
+      for (let i = 1; i <= 10; i++) {
+        const star = document.createElement("span");
+        star.innerHTML = "★";
+        star.dataset.value = i;
+        star.addEventListener("click", setRating);
+        starContainer.appendChild(star);
+      }
+    }
+
+    function setRating(event) {
+    const value = parseInt(event.target.dataset.value);
+    const stars = document.querySelectorAll("#starRating span");
+    
+    // Mettre à jour les étoiles visuellement
+    stars.forEach((star, index) => {
+        if (index < value) {
+            star.classList.add("active");
+        } else {
+            star.classList.remove("active");
+        }
+    });
+
+    // Mettre à jour la valeur cachée
+    document.getElementById("userRating").value = value;
+}
+
+    async function submitRating() {
+    const ratingInput = document.getElementById("userRating");
+    const rating = parseInt(ratingInput.value, 10);
+    const animeId = document.getElementById("animeId").value;
+
+    console.log('Rating:', rating);
+    console.log('Anime ID:', animeId);
+
+    if (!rating || isNaN(rating)) {
+        alert("Please select a rating before submitting.");
+        return;
+    }
+
+    
+
+    try {
+        const token = localStorage.getItem('token');
+        console.log('Using token:', token);
+
+        const response = await fetch('/recommendations/rate', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({
+                anime_id: animeId,
+                rating: rating
+            })
+        });
+
+        console.log('Response status:', response.status);
+        const result = await response.json();
+        console.log('Response data:', result);
+
+        if (response.ok) {
+            alert(`Rating submitted successfully: ${rating}/10`);
+            closeModal();
+            // Recharger les recommandations
+            await loadUserRecommendations();
+        } else {
+            alert(`Error: ${result.error || 'Failed to submit rating'}`);
+        }
+    } catch (error) {
+        console.error('Error submitting rating:', error);
+        alert('An error occurred while submitting your rating.');
+    }
+}
+  </script>
+</body>
+
+</html>

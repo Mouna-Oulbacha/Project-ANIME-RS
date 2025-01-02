@@ -1,0 +1,211 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jobsly Login Page</title>
+    <link rel="stylesheet" href="../static/css/login.css">
+</head>
+<body>
+    <div class="container">
+        <div class="left-panel">
+            <div class="grid">
+                <div class="grid-item medium">
+                    <img src="../static/images/image5.jpeg" alt="Image 1">
+                </div>
+                <div class="grid-item medium">
+                    <img src="../static/images/image1.jpeg" alt="Image 2">
+                </div>
+                <div class="grid-item medium">
+                    <img src="../static/images/image2.jpeg" alt="Image 3">
+                </div>
+                <div class="grid-item medium">
+                    <img src="../static/images/image4.jpg" alt="Image 4">
+                </div>
+                <div class="grid-item medium">
+                    <img src="../static/images/image6.jpeg" alt="Image 5">
+                </div>
+                <div class="grid-item medium">
+                    <img src="../static/images/image1.jpeg" alt="Image 6">
+                </div>
+            </div>
+        </div>
+
+        <div class="right-panel">
+            <div class="login-form">
+                <h2>Sign in to <span class="logo">Jobsly</span></h2>
+                <p>Welcome to Jobsly, please enter your login details below to use the app.</p>
+                <form>
+                    
+                    <input type="email" placeholder="Email Address" required>
+               
+                    <input type="password" placeholder="Password" required>
+                    <a href="#" class="forgot">Forgot the password?</a>
+                    <button type="submit" class="login-btn">Login</button>
+                </form>
+                <div class="or">OR</div>
+                <button class="google-btn">
+                    <img src="https://img.icons8.com/color/16/google-logo.png" alt="Google"> Sign in with Google
+                </button>
+                <p class="signup">Don't have an account? <a href="#">Sign up</a></p>
+            </div>
+        </div>
+    </div>
+</body>
+</html> -->
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jobsly Login Page</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
+</head>
+
+<body>
+    <div class="container">
+        <div class="left-panel">
+            <div class="grid">
+                <div class="grid-item medium">
+                    <img src="{{ url_for('static', filename='images/image17.jpg') }}" alt="Image 1">
+                </div>
+                <div class="grid-item medium">
+                    <img src="{{ url_for('static', filename='images/image11.jpg') }}" alt="Image 2">
+                </div>
+                <div class="grid-item medium">
+                    <img src="{{ url_for('static', filename='images/image12.jpg') }}" alt="Image 3">
+                </div>
+                <div class="grid-item medium">
+                    <img src="{{ url_for('static', filename='images/image4.jpg') }}" alt="Image 4">
+                </div>
+                <div class="grid-item medium">
+                    <img src="{{ url_for('static', filename='images/image13.jpg') }}" alt="Image 5">
+                </div>
+                <div class="grid-item medium">
+                    <img src="{{ url_for('static', filename='images/image3.jpg') }}" alt="Image 6">
+                </div>
+            </div>
+        </div>
+
+        <div class="right-panel">
+            
+            <div class="login-form">
+               
+                <h2>Sign in to <span class="logo">AnimeWorld</span></h2>
+                <p>Welcome to AnimeWorld, please enter your login details below to use the app.</p>
+
+                
+                <form method="POST" action="{{ url_for('auth.login') }}">
+                    <input type="text" name="username" placeholder="Username" required>
+                    <input type="password" name="password" placeholder="Password" required>
+
+                    <a href="#" class="forgot">Forgot the password?</a>
+                    <button type="submit" class="login-btn">Login</button>
+                </form>
+
+                <div class="or">OR</div>
+                <button class="google-btn">
+                    <img src="https://img.icons8.com/color/16/google-logo.png" alt="Google"> Sign in with Google
+                </button>
+                <p class="signup">Don't have an account? <a href="{{ url_for('auth.register') }}">Sign up</a></p>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jobsly Login Page</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <div class="left-panel">
+            <div class="grid">
+                <div class="grid-item medium">
+                    <img src="{{ url_for('static', filename='images/image17.jpg') }}" alt="Image 1">
+                </div>
+                <div class="grid-item medium">
+                    <img src="{{ url_for('static', filename='images/image11.jpg') }}" alt="Image 2">
+                </div>
+                <div class="grid-item medium">
+                    <img src="{{ url_for('static', filename='images/image12.jpg') }}" alt="Image 3">
+                </div>
+                <div class="grid-item medium">
+                    <img src="{{ url_for('static', filename='images/image4.jpg') }}" alt="Image 4">
+                </div>
+                <div class="grid-item medium">
+                    <img src="{{ url_for('static', filename='images/image13.jpg') }}" alt="Image 5">
+                </div>
+                <div class="grid-item medium">
+                    <img src="{{ url_for('static', filename='images/image3.jpg') }}" alt="Image 6">
+                </div>
+            </div>
+        </div>
+
+        <div class="right-panel">
+            <div class="login-form">
+                <h2>Sign in to <span class="logo">AnimeWorld</span></h2>
+                <p>Welcome to AnimeWorld, please enter your login details below to use the app.</p>
+
+                <form method="POST" action="{{ url_for('auth.login') }}" id="loginForm">
+                    <input type="text" name="username" placeholder="Username" required>
+                    <input type="password" name="password" placeholder="Password" required>
+
+                    <a href="#" class="forgot">Forgot the password?</a>
+                    <button type="submit" class="login-btn">Login</button>
+                </form>
+
+                <div class="or">OR</div>
+                <button class="google-btn">
+                    <img src="https://img.icons8.com/color/16/google-logo.png" alt="Google"> Sign in with Google
+                </button>
+                <p class="signup">Don't have an account? <a href="{{ url_for('auth.register') }}">Sign up</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ajout du script JavaScript -->
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            
+            try {
+                const response = await fetch('{{ url_for("auth.login") }}', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    localStorage.setItem('token', data.token);
+                    window.location.href = '/home';
+                } else {
+                    alert(data.error || 'Une erreur est survenue');
+                }
+            } catch (error) {
+                console.error('Erreur:', error);
+                alert('Une erreur est survenue lors de la connexion');
+            }
+        });
+    </script>
+</body>
+
+</html>

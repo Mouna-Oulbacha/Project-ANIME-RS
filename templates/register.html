@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jobsly Login Page</title>
+    <link rel="stylesheet" href="../static/css/register.css">
+</head>
+<body>
+    <div class="container">
+        <div class="left-panel">
+            <div class="grid">
+                <div class="grid-item medium">
+                    <img src="{{ url_for('static', filename='images/image17.jpg') }}" alt="Image 1">
+                </div>
+                <div class="grid-item medium">
+                    <img src="{{ url_for('static', filename='images/image11.jpg') }}" alt="Image 2">
+                </div>
+                <div class="grid-item medium">
+                    <img src="{{ url_for('static', filename='images/image12.jpg') }}" alt="Image 3">
+                </div>
+                <div class="grid-item medium">
+                    <img src="{{ url_for('static', filename='images/image4.jpg') }}" alt="Image 4">
+                </div>
+                <div class="grid-item medium">
+                    <img src="{{ url_for('static', filename='images/image13.jpg') }}" alt="Image 5">
+                </div>
+                <div class="grid-item medium">
+                    <img src="{{ url_for('static', filename='images/image3.jpg') }}" alt="Image 6">
+                </div>
+            </div>
+        </div>
+
+        <div class="right-panel">
+            <div class="login-form">
+                <h2>Sign up to <span class="logo">AnimeWorld</span></h2>
+                <p>Create an account below to get started with AnimeWorld.</p>
+
+                <!-- Formulaire d'inscription -->
+                <form method="POST" action="{{ url_for('auth.register') }}">
+                    <input type="text" name="username" placeholder="Username" required>
+                    <input type="email" name="email" placeholder="Email Address" required>
+                    <input type="password" name="password" placeholder="Password" required>
+                    <input type="password" name="confirm_password" placeholder="Confirm Password" required>
+
+                    <button type="submit" class="login-btn">Register</button>
+                </form>
+
+                <div class="or">OR</div>
+                <button class="google-btn">
+                    <img src="https://img.icons8.com/color/16/google-logo.png" alt="Google"> Sign up with Google
+                </button>
+                <p class="signup">Already have an account? <a href="{{ url_for('auth.login') }}">Sign in</a></p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

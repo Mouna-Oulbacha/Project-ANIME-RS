@@ -1,0 +1,194 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: linear-gradient(to right, #e3f2fd, #ffffff);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.container {
+    display: flex;
+    width: 90%;
+    max-width: 1200px;
+    height: 80vh;
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.left-panel {
+    flex: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(to bottom right, #e6f8e8, #daf1eb);
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.grid-item {
+    background-color: #ddd;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.grid-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.red-box, .green-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+}
+
+.red-box {
+    background-color: #f2633e;
+}
+
+.green-box {
+    background-color: #2ab764;
+}
+
+h2 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.right-panel {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background-color: #fff;
+}
+
+.login-form {
+    width: 100%;
+    max-width: 300px;
+    text-align: center;
+    color: #02084b;
+    margin-top: 2px;
+}
+
+.login-form .logo {
+    color: #f35c07;
+    font-weight: bold;
+}
+
+.login-form p {
+    margin: 10px 0 20px;
+    color: #02084b;
+    margin-top: 80px;
+}
+
+.login-form label {
+    display: block;
+    text-align: left;
+    margin-bottom: 5px;
+    color: #02084b;
+}
+
+.login-form input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.login-form .forgot {
+    display: block;
+    margin-bottom: 15px;
+    color: #f35c07;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.login-btn {
+    background-color: #f35c07;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.login-btn:hover {
+    background-color: #f35c16;
+}
+
+.or {
+    margin: 10px 0;
+    color: #888;
+}
+
+.google-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+    color: #555;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.google-btn img {
+    margin-right: 10px;
+}
+
+.signup {
+    margin-top: 15px;
+    color: #555;
+    font-size: 0.9rem;
+}
+
+.signup a {
+    color: #02084b;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* Position de l'icône "Home" */
+.icon-home {
+    position: absolute; /* Position relative à la section blanche */
+    top: 20px; /* Distance depuis le haut */
+    left: 20px; /* Distance depuis la gauche */
+    z-index: 10; /* Assurez-vous qu'il reste au-dessus des autres éléments */
+}
+
+.icon-home a {
+    text-decoration: none;
+    color: #333; /* Couleur de l'icône */
+    font-size: 24px; /* Taille de l'icône */
+}
+
+.icon-home a:hover {
+    color: #f35c07; /* Couleur au survol */
+}
+
