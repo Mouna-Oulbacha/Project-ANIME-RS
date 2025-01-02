@@ -1,5 +1,7 @@
+import json
 import os
 import pickle
+from flask import jsonify
 from matplotlib import pyplot as plt
 import numpy as np
 from sklearn.linear_model import Huber
@@ -199,3 +201,35 @@ def get_genre_similarity(anime1_genres, anime2_genres):
         genres2 = set(g.strip() for g in anime2_genres.split(','))
         return len(genres1.intersection(genres2)) / len(genres1.union(genres2))
     return 0
+
+def recommend_by_genre(df_anime, genre_filter, top_n=14):
+    """
+    Recommends top animes based on a specified genre.
+
+    Parameters:
+        df_anime (pd.DataFrame): DataFrame containing anime information.
+        genre_filter (str): The genre to filter animes by.
+        top_n (int): The number of recommendations to return.
+
+    Returns:
+        List[dict]: List of filtered recommendations.
+    """
+    # Handle missing or invalid data in the 'genre' column
+    df_anime['type'] = df_anime['type'].fillna("").astype(str)
+
+    # Filter animes containing the specified genre
+    filtered_anime = df_anime[df_anime['type'].apply(
+        lambda genres: genre_filter.lower() in genres.lower()  # Case-insensitive match
+    )]
+
+    # Sort by rating and popularity (members), descending
+    recommendations = filtered_anime.sort_values(
+        ['rating', 'members'], ascending=False
+    ).head(top_n)
+
+    # Convert to list of dictionaries
+    recommendations_list = recommendations.to_dict(orient='records')
+
+    return recommendations_list
+
+

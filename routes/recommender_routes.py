@@ -4,8 +4,9 @@ from flask import Blueprint, jsonify, request, current_app
 import numpy as np
 import pandas as pd
 import tensorflow as tf
+
 from utils.auth import decode_jwt
-from models.recommendation_model import recommend_for_new_user, recommend_for_user_from_csv
+from models.recommendation_model import recommend_by_genre, recommend_for_new_user, recommend_for_user_from_csv
 from models.User import User
 from extensions import mongo, bcrypt
 import os
@@ -255,3 +256,15 @@ def get_user_recommendations():
             "error": "An error occurred while fetching recommendations",
             "details": str(e)
         }), 500
+
+
+@recommender_bp.route('/recommendByGenre', methods=['GET'])
+def recommendByGenre():
+    genre = request.args.get('genre', default="", type=str)
+    df_anime = pd.read_csv("C:/Users/msi/Desktop/RS_Animes/model_outputs/anime.csv")
+    
+    # Get filtered recommendations
+    filtered_recommendations = recommend_by_genre(df_anime, genre_filter=genre)
+    
+    return jsonify({"recommendations": filtered_recommendations})
+

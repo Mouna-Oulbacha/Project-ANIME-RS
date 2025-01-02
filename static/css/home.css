@@ -11,12 +11,12 @@ body {
   margin: auto;
 }
 
-/* Navbar */
+
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  /* background-color: #0c1257; */
+ 
   background-color: #0c1043;
   padding: 15px 50px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -74,11 +74,11 @@ body {
 }
 .card {
   position: relative;
-  width: 300px; /* Adjust the size as needed */
-  height: 140px; /* Adjust the size as needed */
+  width: 300px;
+  height: 140px; 
   overflow: hidden;
   border-radius: 8px; /* Optional: Adds rounded corners */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional: Adds a shadow */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
 }
 
 .card img {
@@ -144,8 +144,8 @@ body {
 }
 
 .movie-card img {
-  width: 120%;
-  height: 70%;
+  width: 70%;
+  height: 90%;
   border-radius: 10px;
   margin-bottom: 10px;
   margin-top: -15px;
@@ -309,6 +309,7 @@ background: #4cae4c;
 /* Modal Header */
 .modal-header img {
   width: 110%;
+  height: 20%;
   border-radius: 10px;
   margin-bottom: 15px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
@@ -410,7 +411,7 @@ background: #4cae4c;
 
 .search-input {
   width: 100%;
-  padding: 8px 12px 8px 40px; /* Espace pour l'icône */
+  padding: 8px 12px 8px 40px; 
   border: 1px solid #ccc;
   border-radius: 35px;
   font-size: 14px;
@@ -429,7 +430,7 @@ background: #4cae4c;
   height: 20px;
   color: #888;
   margin-top: -2px;
-  pointer-events: none; /* Empêche l'icône de bloquer les clics sur l'input */
+  pointer-events: none; 
 }
 .user-actions {
 display: flex;

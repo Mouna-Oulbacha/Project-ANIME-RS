@@ -47,18 +47,23 @@
     </div>
 
     <div class="filters">
-      <button>Tv</button>
-      <button>OVA</button>
-      <button>Movie</button>
-      <button>Special</button>
-      <button>ONA</button>
-      <button>Music</button>
+      <button onclick="filterByGenre('TV')">Tv</button>
+      <button onclick="filterByGenre('OVA')">OVA</button>
+      <button onclick="filterByGenre('Movie')">Movie</button>
+      <button onclick="filterByGenre('Special')">Special</button>
+      <button onclick="filterByGenre('ONA')">ONA</button>
+      <button onclick="filterByGenre('Music')">Music</button>
     </div>
-
+    <h3>Filtered Results</h3>
+<div id="filteredResults" class="trending">
+  <p>Select a type to see results.</p>
+</div>
+    
     <h3>Trending in Animation</h3>
     <div class="trending" id="trendingAnime">
       <p>Loading...</p>
     </div>
+    
 
     <h3>For you</h3>
     <div class="trending" id="userRecommendations">
@@ -117,15 +122,17 @@
               'N/A',
               anime.members || 0,
               rating,
-              '../static/images/default-anime.jpg',
+              '../static/images/hmi.png',
               anime.anime_id,
               
             );
 
             card.innerHTML = `
-              <img src="../static/images/default-anime.jpg" alt="${anime.name || 'Unknown'}">
+              <img src="../static/images/imae11.jpg" alt="${anime.name || 'Unknown'}">
+
               <h4>${anime.name || 'Unknown'}</h4>
               <p>${rating} | ${anime.type || 'Unknown'}</p>
+               
             `;
 
             trendingContainer.appendChild(card);
@@ -177,12 +184,13 @@
               // anime.episodes || 'N/A',
               // anime.members || 0,
              rating,
-              // anime.image || '../static/images/default-anime.jpg',
+             anime.image || '../static/images/hoi.png',
               anime.anime_id
             );
 
             card.innerHTML = `
-              <img src="${anime.image || '../static/images/default-anime.jpg'}" alt="${anime.name || 'Unknown'}">
+              <img src="../static/images/hmi.png" alt="${anime.name || 'Unknown'}">
+
               <h4>${anime.name || 'Unknown'}</h4>
               <p>${rating} | ${anime.type || 'Unknown'}</p>
             `;
@@ -299,6 +307,82 @@
         alert('An error occurred while submitting your rating.');
     }
 }
+
+function filterByGenre(genre) {
+  console.log(`Filtering by genre: ${genre}`);
+  
+  // Call the backend endpoint with the selected genre
+  fetch(`/recommendations/recommendByGenre?genre=${encodeURIComponent(genre)}`)
+    .then(response => response.json())
+    .then(data => {
+      const filteredContainer = document.getElementById('filteredResults');
+      
+      if (!data.recommendations || data.recommendations.length === 0) {
+        filteredContainer.innerHTML = '<p>No recommendations available for this type.</p>';
+        return;
+      }
+      
+      filteredContainer.innerHTML = ''; // Clear the section
+      
+      data.recommendations.forEach(anime => {
+        const rating = anime.rating === "N/A" ? "N/A" : parseFloat(anime.rating).toFixed(1);
+        
+        // Create a card for each anime
+        const card = document.createElement('div');
+        card.className = 'movie-card';
+        card.onclick = () => openModal(
+          anime.name || 'Unknown',
+          // Array.isArray(anime.genre) ? anime.genre.join(', ') : 'Unknown',
+          anime.genre,
+          anime.type || 'Unknown',
+          'N/A',
+          anime.members || 0,
+          rating,
+          '../static/images/default-anime.jpg',
+          anime.anime_id
+        );
+
+        card.innerHTML = `
+          <img src="../static/images/b.jpg" alt="${anime.name || 'Unknown'}">
+
+          <h4>${anime.name || 'Unknown'}</h4>
+          <p>${rating} | ${anime.type || 'Unknown'}</p>
+        `;
+
+        filteredContainer.appendChild(card);
+      });
+    })
+    .catch(error => {
+      console.error('Error filtering by genre:', error);
+      document.getElementById('filteredResults').innerHTML = `
+        <div class="error-message">
+          <p>Error: ${error.message}</p>
+        </div>
+      `;
+    });
+}
+$(document).on('click', '.button-similar', function () {
+    const animeName = $(this).data('anime-name');
+    const userId = $(this).data('user-id');
+
+    $.ajax({
+        url: '/recommendations/recommendByName',
+        method: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({ anime_name: animeName, user_id: userId }),
+        success: function (response) {
+            console.log(response);
+            alert('Recommandations disponibles dans la console!');
+        },
+        error: function (xhr) {
+            console.error(xhr.responseText);
+            alert('Erreur lors de la récupération des recommandations.');
+        }
+    });
+});
+
+
+
   </script>
 </body>
 

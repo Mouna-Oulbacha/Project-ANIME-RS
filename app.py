@@ -62,5 +62,6 @@ app.register_blueprint(main_bp)
 def home():
     return render_template('home.html')
 
-if __name__ == '__main__':
-    app.run(debug=True)
+if __name__ == "__main__":
+    app.run(debug=True, use_reloader=False)
+
